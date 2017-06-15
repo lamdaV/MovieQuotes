@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
-interface MovieQuote {
+export interface MovieQuote {
   movie: string;
   quote: string;
   $key?: string;
