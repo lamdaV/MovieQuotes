@@ -27,7 +27,13 @@ export class AppComponent {
 
   onSubmit() {
     try {
-      this.movieQuotesStream.push(this.formMovieQuote)
+      if (this.formMovieQuote.$key) {
+        const key = this.formMovieQuote.$key;
+        const data = Object.assign({}, {movie: this.formMovieQuote.movie, quote: this.formMovieQuote.quote});
+        this.movieQuotesStream.update(key, data);
+      } else {
+        this.movieQuotesStream.push(this.formMovieQuote)
+      }
 
       this.formMovieQuote = {
         movie: '',
@@ -36,5 +42,14 @@ export class AppComponent {
     } catch (error) {
       console.log('[ ERROR ]:', error.message);
     }
+  }
+
+  edit(movieQuote: MovieQuote) {
+    this.formMovieQuote = Object.assign({}, movieQuote, {$key: movieQuote.$key});
+  }
+
+  delete(movieQuote: MovieQuote) {
+    const key = movieQuote.$key
+    this.movieQuotesStream.remove(key);
   }
 }

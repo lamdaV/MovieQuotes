@@ -21,7 +21,7 @@
         The best quote from <b>{{formMovieQuote.movie}}</b> is <b>"{{formMovieQuote.quote}}"</b>
       </p>
 
-      <button [disabled]="!movieQuoteForm.form.valid" class="btn btn-primary pull-right" type=submit> Submit </button>
+      <button [disabled]="!movieQuoteForm.form.valid" class="btn btn-{{(formMovieQuote.$key) ? 'success' : 'primary'}} pull-right" type=submit> {{(formMovieQuote.$key) ? 'Edit' : 'Submit'}} </button>
       <div class="clearfix" ></div>
     </form>
   </div>
@@ -35,12 +35,21 @@
       <tr>
         <th> Quote </th>
         <th> Movie </th>
+        <th> Edit </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let movieQuote of movieQuotesStream | async | reverse">
         <td> {{movieQuote.quote}} </td>
         <td> {{movieQuote.movie}} </td>
+        <td>
+          <button type="button" class="btn btn-success btn-xs" (click)="edit(movieQuote)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button type="button" class="btn btn-danger btn-xs" (click)="delete(movieQuote)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
